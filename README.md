@@ -1,6 +1,6 @@
 # Introduction-to-Compiler
-[NYCU 2023 Fall] Introduction to Compiler
-Professor: [Yi-Ping You](https://www.cs.nycu.edu.tw/members/detail/ypyou)
+* [NYCU 2023 Fall] Introduction to Compiler
+* Professor: [Yi-Ping You](https://www.cs.nycu.edu.tw/members/detail/ypyou)
 
 ## HW1: Lexical Definition
 In this assignment, you have to write a scanner for the P language in lex. This document provides the lexical definitions of the P language. You should follow those lexical definitions to implement the scanner.
