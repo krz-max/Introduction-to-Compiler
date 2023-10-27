@@ -1,0 +1,2583 @@
+Terminals unused in grammar
+
+   DEF
+
+
+State 117 conflicts: 19 reduce/reduce
+State 118 conflicts: 19 reduce/reduce
+State 119 conflicts: 19 reduce/reduce
+State 153 conflicts: 13 shift/reduce
+State 154 conflicts: 13 shift/reduce
+State 155 conflicts: 13 shift/reduce
+
+
+Grammar
+
+    0 $accept: programUnit $end
+
+    1 programUnit: program
+    2            | function
+
+    3 program: ID ';' dataDeclList functionList compoundStmt END
+
+    4 function: functionDeclaration
+    5         | functionDefinition
+
+    6 functionList: %empty
+    7             | functionList1
+
+    8 functionList1: function
+    9              | functionList1 function
+
+   10 functionDeclaration: ID '(' formalArgumentList ')' ':' scalarType ';'
+   11                    | ID '(' formalArgumentList ')' ';'
+
+   12 formalArgumentList: %empty
+   13                   | formalArgumentList1
+
+   14 formalArgumentList1: formalArgument
+   15                    | formalArgumentList1 ',' formalArgument
+
+   16 functionDefinition: ID '(' formalArgumentList ')' ':' scalarType compoundStmt END
+   17                   | ID '(' formalArgumentList ')' compoundStmt END
+
+   18 dataDeclaration: VAR idList ':' type ';'
+   19                | VAR idList ':' literalConst ';'
+
+   20 idList: ID
+   21       | idList ',' ID
+
+   22 formalArgument: idList ':' type
+
+   23 type: scalarType
+   24     | arrayType
+
+   25 arrayType: ARRAY INTCONST OF type
+
+   26 scalarType: BOOLEAN
+   27           | INTEGER
+   28           | REAL
+   29           | STRING
+
+   30 literalConst: INTCONST
+   31             | '-' INTCONST
+   32             | REALCONST
+   33             | '-' REALCONST
+   34             | STRLITERAL
+   35             | SCIENTIFIC
+   36             | '-' SCIENTIFIC
+   37             | YES
+   38             | NO
+
+   39 statements: compoundStmt
+   40           | simpleStmt
+   41           | conditionalStmt
+   42           | whileStmt
+   43           | forStmt
+   44           | returnStmt
+   45           | funcCallStmt
+
+   46 compoundStmt: START dataDeclList statementList END
+
+   47 dataDeclList: %empty
+   48             | dataDeclList1
+
+   49 dataDeclList1: dataDeclaration
+   50              | dataDeclList1 dataDeclaration
+
+   51 statementList: %empty
+   52              | statementList1
+
+   53 statementList1: statements
+   54               | statementList1 statements
+
+   55 simpleStmt: assignmentStmt
+   56           | printStmt
+   57           | readStmt
+
+   58 assignmentStmt: variableReference ASSIGN expression ';'
+
+   59 variableReference: ID bracketExpressionList
+
+   60 bracketExpressionList: %empty
+   61                      | bracketExpressionList1
+
+   62 bracketExpressionList1: '[' expression ']'
+   63                       | bracketExpressionList1 '[' expression ']'
+
+   64 printStmt: PRINT expression ';'
+
+   65 readStmt: READ variableReference ';'
+
+   66 conditionalStmt: ifStmt
+   67                | ifElseStmt
+
+   68 ifStmt: IF expression THEN compoundStmt END IF
+
+   69 ifElseStmt: IF expression THEN compoundStmt ELSE compoundStmt END IF
+
+   70 whileStmt: WHILE expression DO compoundStmt END DO
+
+   71 forStmt: FOR ID ASSIGN INTCONST TO INTCONST DO compoundStmt END DO
+
+   72 returnStmt: RETURN expression ';'
+
+   73 funcCallStmt: ID '(' commaExpressionList ')' ';'
+
+   74 commaExpressionList: %empty
+   75                    | commaExpressionList1
+
+   76 commaExpressionList1: expression
+   77                     | commaExpressionList1 ',' expression
+
+   78 expression: literalConst
+   79           | variableReference
+   80           | ID '(' commaExpressionList ')'
+   81           | arithmeticExpression
+
+   82 arithmeticExpression: expression AND expression
+   83                     | expression OR expression
+   84                     | NOT expression
+   85                     | expression Relational expression
+   86                     | expression Additive expression
+   87                     | expression mulDivMod expression
+   88                     | '-' expression
+   89                     | '(' expression ')'
+
+   90 Relational: LT
+   91           | LE
+   92           | NE
+   93           | GE
+   94           | GT
+   95           | EQ
+
+   96 Additive: '+'
+   97         | '-'
+
+   98 mulDivMod: '/'
+   99          | '%'
+  100          | '*'
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'%' (37) 99
+'(' (40) 10 11 16 17 73 80 89
+')' (41) 10 11 16 17 73 80 89
+'*' (42) 100
+'+' (43) 96
+',' (44) 15 21 77
+'-' (45) 31 33 36 88 97
+'/' (47) 98
+':' (58) 10 16 18 19 22
+';' (59) 3 10 11 18 19 58 64 65 72 73
+'[' (91) 62 63
+']' (93) 62 63
+error (256)
+VAR (258) 18 19
+ARRAY (259) 25
+OF (260) 25
+ASSIGN (261) 58 71
+BOOLEAN (262) 26
+INTEGER (263) 27
+REAL (264) 28
+STRING (265) 29
+YES (266) 37
+NO (267) 38
+DEF (268)
+RETURN (269) 72
+START (270) 46
+END (271) 3 16 17 46 68 69 70 71
+WHILE (272) 70
+DO (273) 70 71
+IF (274) 68 69
+THEN (275) 68 69
+ELSE (276) 69
+FOR (277) 71
+TO (278) 71
+PRINT (279) 64
+READ (280) 65
+ID (281) 3 10 11 16 17 20 21 59 71 73 80
+INTCONST (282) 25 30 31 71
+REALCONST (283) 32 33
+STRLITERAL (284) 34
+SCIENTIFIC (285) 35 36
+AND (286) 82
+OR (287) 83
+NOT (288) 84
+LT (289) 90
+LE (290) 91
+NE (291) 92
+GE (292) 93
+GT (293) 94
+EQ (294) 95
+
+
+Nonterminals, with rules where they appear
+
+$accept (52)
+    on left: 0
+programUnit (53)
+    on left: 1 2, on right: 0
+program (54)
+    on left: 3, on right: 1
+function (55)
+    on left: 4 5, on right: 2 8 9
+functionList (56)
+    on left: 6 7, on right: 3
+functionList1 (57)
+    on left: 8 9, on right: 7 9
+functionDeclaration (58)
+    on left: 10 11, on right: 4
+formalArgumentList (59)
+    on left: 12 13, on right: 10 11 16 17
+formalArgumentList1 (60)
+    on left: 14 15, on right: 13 15
+functionDefinition (61)
+    on left: 16 17, on right: 5
+dataDeclaration (62)
+    on left: 18 19, on right: 49 50
+idList (63)
+    on left: 20 21, on right: 18 19 21 22
+formalArgument (64)
+    on left: 22, on right: 14 15
+type (65)
+    on left: 23 24, on right: 18 22 25
+arrayType (66)
+    on left: 25, on right: 24
+scalarType (67)
+    on left: 26 27 28 29, on right: 10 16 23
+literalConst (68)
+    on left: 30 31 32 33 34 35 36 37 38, on right: 19 78
+statements (69)
+    on left: 39 40 41 42 43 44 45, on right: 53 54
+compoundStmt (70)
+    on left: 46, on right: 3 16 17 39 68 69 70 71
+dataDeclList (71)
+    on left: 47 48, on right: 3 46
+dataDeclList1 (72)
+    on left: 49 50, on right: 48 50
+statementList (73)
+    on left: 51 52, on right: 46
+statementList1 (74)
+    on left: 53 54, on right: 52 54
+simpleStmt (75)
+    on left: 55 56 57, on right: 40
+assignmentStmt (76)
+    on left: 58, on right: 55
+variableReference (77)
+    on left: 59, on right: 58 65 79
+bracketExpressionList (78)
+    on left: 60 61, on right: 59
+bracketExpressionList1 (79)
+    on left: 62 63, on right: 61 63
+printStmt (80)
+    on left: 64, on right: 56
+readStmt (81)
+    on left: 65, on right: 57
+conditionalStmt (82)
+    on left: 66 67, on right: 41
+ifStmt (83)
+    on left: 68, on right: 66
+ifElseStmt (84)
+    on left: 69, on right: 67
+whileStmt (85)
+    on left: 70, on right: 42
+forStmt (86)
+    on left: 71, on right: 43
+returnStmt (87)
+    on left: 72, on right: 44
+funcCallStmt (88)
+    on left: 73, on right: 45
+commaExpressionList (89)
+    on left: 74 75, on right: 73 80
+commaExpressionList1 (90)
+    on left: 76 77, on right: 75 77
+expression (91)
+    on left: 78 79 80 81, on right: 58 62 63 64 68 69 70 72 76 77 82
+    83 84 85 86 87 88 89
+arithmeticExpression (92)
+    on left: 82 83 84 85 86 87 88 89, on right: 81
+Relational (93)
+    on left: 90 91 92 93 94 95, on right: 85
+Additive (94)
+    on left: 96 97, on right: 86
+mulDivMod (95)
+    on left: 98 99 100, on right: 87
+
+
+State 0
+
+    0 $accept: . programUnit $end
+
+    ID  shift, and go to state 1
+
+    programUnit          go to state 2
+    program              go to state 3
+    function             go to state 4
+    functionDeclaration  go to state 5
+    functionDefinition   go to state 6
+
+
+State 1
+
+    3 program: ID . ';' dataDeclList functionList compoundStmt END
+   10 functionDeclaration: ID . '(' formalArgumentList ')' ':' scalarType ';'
+   11                    | ID . '(' formalArgumentList ')' ';'
+   16 functionDefinition: ID . '(' formalArgumentList ')' ':' scalarType compoundStmt END
+   17                   | ID . '(' formalArgumentList ')' compoundStmt END
+
+    ';'  shift, and go to state 7
+    '('  shift, and go to state 8
+
+
+State 2
+
+    0 $accept: programUnit . $end
+
+    $end  shift, and go to state 9
+
+
+State 3
+
+    1 programUnit: program .
+
+    $default  reduce using rule 1 (programUnit)
+
+
+State 4
+
+    2 programUnit: function .
+
+    $default  reduce using rule 2 (programUnit)
+
+
+State 5
+
+    4 function: functionDeclaration .
+
+    $default  reduce using rule 4 (function)
+
+
+State 6
+
+    5 function: functionDefinition .
+
+    $default  reduce using rule 5 (function)
+
+
+State 7
+
+    3 program: ID ';' . dataDeclList functionList compoundStmt END
+
+    VAR  shift, and go to state 10
+
+    $default  reduce using rule 47 (dataDeclList)
+
+    dataDeclaration  go to state 11
+    dataDeclList     go to state 12
+    dataDeclList1    go to state 13
+
+
+State 8
+
+   10 functionDeclaration: ID '(' . formalArgumentList ')' ':' scalarType ';'
+   11                    | ID '(' . formalArgumentList ')' ';'
+   16 functionDefinition: ID '(' . formalArgumentList ')' ':' scalarType compoundStmt END
+   17                   | ID '(' . formalArgumentList ')' compoundStmt END
+
+    ID  shift, and go to state 14
+
+    $default  reduce using rule 12 (formalArgumentList)
+
+    formalArgumentList   go to state 15
+    formalArgumentList1  go to state 16
+    idList               go to state 17
+    formalArgument       go to state 18
+
+
+State 9
+
+    0 $accept: programUnit $end .
+
+    $default  accept
+
+
+State 10
+
+   18 dataDeclaration: VAR . idList ':' type ';'
+   19                | VAR . idList ':' literalConst ';'
+
+    ID  shift, and go to state 14
+
+    idList  go to state 19
+
+
+State 11
+
+   49 dataDeclList1: dataDeclaration .
+
+    $default  reduce using rule 49 (dataDeclList1)
+
+
+State 12
+
+    3 program: ID ';' dataDeclList . functionList compoundStmt END
+
+    ID  shift, and go to state 20
+
+    $default  reduce using rule 6 (functionList)
+
+    function             go to state 21
+    functionList         go to state 22
+    functionList1        go to state 23
+    functionDeclaration  go to state 5
+    functionDefinition   go to state 6
+
+
+State 13
+
+   48 dataDeclList: dataDeclList1 .
+   50 dataDeclList1: dataDeclList1 . dataDeclaration
+
+    VAR  shift, and go to state 10
+
+    $default  reduce using rule 48 (dataDeclList)
+
+    dataDeclaration  go to state 24
+
+
+State 14
+
+   20 idList: ID .
+
+    $default  reduce using rule 20 (idList)
+
+
+State 15
+
+   10 functionDeclaration: ID '(' formalArgumentList . ')' ':' scalarType ';'
+   11                    | ID '(' formalArgumentList . ')' ';'
+   16 functionDefinition: ID '(' formalArgumentList . ')' ':' scalarType compoundStmt END
+   17                   | ID '(' formalArgumentList . ')' compoundStmt END
+
+    ')'  shift, and go to state 25
+
+
+State 16
+
+   13 formalArgumentList: formalArgumentList1 .
+   15 formalArgumentList1: formalArgumentList1 . ',' formalArgument
+
+    ','  shift, and go to state 26
+
+    $default  reduce using rule 13 (formalArgumentList)
+
+
+State 17
+
+   21 idList: idList . ',' ID
+   22 formalArgument: idList . ':' type
+
+    ','  shift, and go to state 27
+    ':'  shift, and go to state 28
+
+
+State 18
+
+   14 formalArgumentList1: formalArgument .
+
+    $default  reduce using rule 14 (formalArgumentList1)
+
+
+State 19
+
+   18 dataDeclaration: VAR idList . ':' type ';'
+   19                | VAR idList . ':' literalConst ';'
+   21 idList: idList . ',' ID
+
+    ','  shift, and go to state 27
+    ':'  shift, and go to state 29
+
+
+State 20
+
+   10 functionDeclaration: ID . '(' formalArgumentList ')' ':' scalarType ';'
+   11                    | ID . '(' formalArgumentList ')' ';'
+   16 functionDefinition: ID . '(' formalArgumentList ')' ':' scalarType compoundStmt END
+   17                   | ID . '(' formalArgumentList ')' compoundStmt END
+
+    '('  shift, and go to state 8
+
+
+State 21
+
+    8 functionList1: function .
+
+    $default  reduce using rule 8 (functionList1)
+
+
+State 22
+
+    3 program: ID ';' dataDeclList functionList . compoundStmt END
+
+    START  shift, and go to state 30
+
+    compoundStmt  go to state 31
+
+
+State 23
+
+    7 functionList: functionList1 .
+    9 functionList1: functionList1 . function
+
+    ID  shift, and go to state 20
+
+    $default  reduce using rule 7 (functionList)
+
+    function             go to state 32
+    functionDeclaration  go to state 5
+    functionDefinition   go to state 6
+
+
+State 24
+
+   50 dataDeclList1: dataDeclList1 dataDeclaration .
+
+    $default  reduce using rule 50 (dataDeclList1)
+
+
+State 25
+
+   10 functionDeclaration: ID '(' formalArgumentList ')' . ':' scalarType ';'
+   11                    | ID '(' formalArgumentList ')' . ';'
+   16 functionDefinition: ID '(' formalArgumentList ')' . ':' scalarType compoundStmt END
+   17                   | ID '(' formalArgumentList ')' . compoundStmt END
+
+    ';'    shift, and go to state 33
+    ':'    shift, and go to state 34
+    START  shift, and go to state 30
+
+    compoundStmt  go to state 35
+
+
+State 26
+
+   15 formalArgumentList1: formalArgumentList1 ',' . formalArgument
+
+    ID  shift, and go to state 14
+
+    idList          go to state 17
+    formalArgument  go to state 36
+
+
+State 27
+
+   21 idList: idList ',' . ID
+
+    ID  shift, and go to state 37
+
+
+State 28
+
+   22 formalArgument: idList ':' . type
+
+    ARRAY    shift, and go to state 38
+    BOOLEAN  shift, and go to state 39
+    INTEGER  shift, and go to state 40
+    REAL     shift, and go to state 41
+    STRING   shift, and go to state 42
+
+    type        go to state 43
+    arrayType   go to state 44
+    scalarType  go to state 45
+
+
+State 29
+
+   18 dataDeclaration: VAR idList ':' . type ';'
+   19                | VAR idList ':' . literalConst ';'
+
+    ARRAY       shift, and go to state 38
+    BOOLEAN     shift, and go to state 39
+    INTEGER     shift, and go to state 40
+    REAL        shift, and go to state 41
+    STRING      shift, and go to state 42
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    '-'         shift, and go to state 52
+
+    type          go to state 53
+    arrayType     go to state 44
+    scalarType    go to state 45
+    literalConst  go to state 54
+
+
+State 30
+
+   46 compoundStmt: START . dataDeclList statementList END
+
+    VAR  shift, and go to state 10
+
+    $default  reduce using rule 47 (dataDeclList)
+
+    dataDeclaration  go to state 11
+    dataDeclList     go to state 55
+    dataDeclList1    go to state 13
+
+
+State 31
+
+    3 program: ID ';' dataDeclList functionList compoundStmt . END
+
+    END  shift, and go to state 56
+
+
+State 32
+
+    9 functionList1: functionList1 function .
+
+    $default  reduce using rule 9 (functionList1)
+
+
+State 33
+
+   11 functionDeclaration: ID '(' formalArgumentList ')' ';' .
+
+    $default  reduce using rule 11 (functionDeclaration)
+
+
+State 34
+
+   10 functionDeclaration: ID '(' formalArgumentList ')' ':' . scalarType ';'
+   16 functionDefinition: ID '(' formalArgumentList ')' ':' . scalarType compoundStmt END
+
+    BOOLEAN  shift, and go to state 39
+    INTEGER  shift, and go to state 40
+    REAL     shift, and go to state 41
+    STRING   shift, and go to state 42
+
+    scalarType  go to state 57
+
+
+State 35
+
+   17 functionDefinition: ID '(' formalArgumentList ')' compoundStmt . END
+
+    END  shift, and go to state 58
+
+
+State 36
+
+   15 formalArgumentList1: formalArgumentList1 ',' formalArgument .
+
+    $default  reduce using rule 15 (formalArgumentList1)
+
+
+State 37
+
+   21 idList: idList ',' ID .
+
+    $default  reduce using rule 21 (idList)
+
+
+State 38
+
+   25 arrayType: ARRAY . INTCONST OF type
+
+    INTCONST  shift, and go to state 59
+
+
+State 39
+
+   26 scalarType: BOOLEAN .
+
+    $default  reduce using rule 26 (scalarType)
+
+
+State 40
+
+   27 scalarType: INTEGER .
+
+    $default  reduce using rule 27 (scalarType)
+
+
+State 41
+
+   28 scalarType: REAL .
+
+    $default  reduce using rule 28 (scalarType)
+
+
+State 42
+
+   29 scalarType: STRING .
+
+    $default  reduce using rule 29 (scalarType)
+
+
+State 43
+
+   22 formalArgument: idList ':' type .
+
+    $default  reduce using rule 22 (formalArgument)
+
+
+State 44
+
+   24 type: arrayType .
+
+    $default  reduce using rule 24 (type)
+
+
+State 45
+
+   23 type: scalarType .
+
+    $default  reduce using rule 23 (type)
+
+
+State 46
+
+   37 literalConst: YES .
+
+    $default  reduce using rule 37 (literalConst)
+
+
+State 47
+
+   38 literalConst: NO .
+
+    $default  reduce using rule 38 (literalConst)
+
+
+State 48
+
+   30 literalConst: INTCONST .
+
+    $default  reduce using rule 30 (literalConst)
+
+
+State 49
+
+   32 literalConst: REALCONST .
+
+    $default  reduce using rule 32 (literalConst)
+
+
+State 50
+
+   34 literalConst: STRLITERAL .
+
+    $default  reduce using rule 34 (literalConst)
+
+
+State 51
+
+   35 literalConst: SCIENTIFIC .
+
+    $default  reduce using rule 35 (literalConst)
+
+
+State 52
+
+   31 literalConst: '-' . INTCONST
+   33             | '-' . REALCONST
+   36             | '-' . SCIENTIFIC
+
+    INTCONST    shift, and go to state 60
+    REALCONST   shift, and go to state 61
+    SCIENTIFIC  shift, and go to state 62
+
+
+State 53
+
+   18 dataDeclaration: VAR idList ':' type . ';'
+
+    ';'  shift, and go to state 63
+
+
+State 54
+
+   19 dataDeclaration: VAR idList ':' literalConst . ';'
+
+    ';'  shift, and go to state 64
+
+
+State 55
+
+   46 compoundStmt: START dataDeclList . statementList END
+
+    RETURN  shift, and go to state 65
+    START   shift, and go to state 30
+    WHILE   shift, and go to state 66
+    IF      shift, and go to state 67
+    FOR     shift, and go to state 68
+    PRINT   shift, and go to state 69
+    READ    shift, and go to state 70
+    ID      shift, and go to state 71
+
+    $default  reduce using rule 51 (statementList)
+
+    statements         go to state 72
+    compoundStmt       go to state 73
+    statementList      go to state 74
+    statementList1     go to state 75
+    simpleStmt         go to state 76
+    assignmentStmt     go to state 77
+    variableReference  go to state 78
+    printStmt          go to state 79
+    readStmt           go to state 80
+    conditionalStmt    go to state 81
+    ifStmt             go to state 82
+    ifElseStmt         go to state 83
+    whileStmt          go to state 84
+    forStmt            go to state 85
+    returnStmt         go to state 86
+    funcCallStmt       go to state 87
+
+
+State 56
+
+    3 program: ID ';' dataDeclList functionList compoundStmt END .
+
+    $default  reduce using rule 3 (program)
+
+
+State 57
+
+   10 functionDeclaration: ID '(' formalArgumentList ')' ':' scalarType . ';'
+   16 functionDefinition: ID '(' formalArgumentList ')' ':' scalarType . compoundStmt END
+
+    ';'    shift, and go to state 88
+    START  shift, and go to state 30
+
+    compoundStmt  go to state 89
+
+
+State 58
+
+   17 functionDefinition: ID '(' formalArgumentList ')' compoundStmt END .
+
+    $default  reduce using rule 17 (functionDefinition)
+
+
+State 59
+
+   25 arrayType: ARRAY INTCONST . OF type
+
+    OF  shift, and go to state 90
+
+
+State 60
+
+   31 literalConst: '-' INTCONST .
+
+    $default  reduce using rule 31 (literalConst)
+
+
+State 61
+
+   33 literalConst: '-' REALCONST .
+
+    $default  reduce using rule 33 (literalConst)
+
+
+State 62
+
+   36 literalConst: '-' SCIENTIFIC .
+
+    $default  reduce using rule 36 (literalConst)
+
+
+State 63
+
+   18 dataDeclaration: VAR idList ':' type ';' .
+
+    $default  reduce using rule 18 (dataDeclaration)
+
+
+State 64
+
+   19 dataDeclaration: VAR idList ':' literalConst ';' .
+
+    $default  reduce using rule 19 (dataDeclaration)
+
+
+State 65
+
+   72 returnStmt: RETURN . expression ';'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 97
+    arithmeticExpression  go to state 98
+
+
+State 66
+
+   70 whileStmt: WHILE . expression DO compoundStmt END DO
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 99
+    arithmeticExpression  go to state 98
+
+
+State 67
+
+   68 ifStmt: IF . expression THEN compoundStmt END IF
+   69 ifElseStmt: IF . expression THEN compoundStmt ELSE compoundStmt END IF
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 100
+    arithmeticExpression  go to state 98
+
+
+State 68
+
+   71 forStmt: FOR . ID ASSIGN INTCONST TO INTCONST DO compoundStmt END DO
+
+    ID  shift, and go to state 101
+
+
+State 69
+
+   64 printStmt: PRINT . expression ';'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 102
+    arithmeticExpression  go to state 98
+
+
+State 70
+
+   65 readStmt: READ . variableReference ';'
+
+    ID  shift, and go to state 103
+
+    variableReference  go to state 104
+
+
+State 71
+
+   59 variableReference: ID . bracketExpressionList
+   73 funcCallStmt: ID . '(' commaExpressionList ')' ';'
+
+    '['  shift, and go to state 105
+    '('  shift, and go to state 106
+
+    $default  reduce using rule 60 (bracketExpressionList)
+
+    bracketExpressionList   go to state 107
+    bracketExpressionList1  go to state 108
+
+
+State 72
+
+   53 statementList1: statements .
+
+    $default  reduce using rule 53 (statementList1)
+
+
+State 73
+
+   39 statements: compoundStmt .
+
+    $default  reduce using rule 39 (statements)
+
+
+State 74
+
+   46 compoundStmt: START dataDeclList statementList . END
+
+    END  shift, and go to state 109
+
+
+State 75
+
+   52 statementList: statementList1 .
+   54 statementList1: statementList1 . statements
+
+    RETURN  shift, and go to state 65
+    START   shift, and go to state 30
+    WHILE   shift, and go to state 66
+    IF      shift, and go to state 67
+    FOR     shift, and go to state 68
+    PRINT   shift, and go to state 69
+    READ    shift, and go to state 70
+    ID      shift, and go to state 71
+
+    $default  reduce using rule 52 (statementList)
+
+    statements         go to state 110
+    compoundStmt       go to state 73
+    simpleStmt         go to state 76
+    assignmentStmt     go to state 77
+    variableReference  go to state 78
+    printStmt          go to state 79
+    readStmt           go to state 80
+    conditionalStmt    go to state 81
+    ifStmt             go to state 82
+    ifElseStmt         go to state 83
+    whileStmt          go to state 84
+    forStmt            go to state 85
+    returnStmt         go to state 86
+    funcCallStmt       go to state 87
+
+
+State 76
+
+   40 statements: simpleStmt .
+
+    $default  reduce using rule 40 (statements)
+
+
+State 77
+
+   55 simpleStmt: assignmentStmt .
+
+    $default  reduce using rule 55 (simpleStmt)
+
+
+State 78
+
+   58 assignmentStmt: variableReference . ASSIGN expression ';'
+
+    ASSIGN  shift, and go to state 111
+
+
+State 79
+
+   56 simpleStmt: printStmt .
+
+    $default  reduce using rule 56 (simpleStmt)
+
+
+State 80
+
+   57 simpleStmt: readStmt .
+
+    $default  reduce using rule 57 (simpleStmt)
+
+
+State 81
+
+   41 statements: conditionalStmt .
+
+    $default  reduce using rule 41 (statements)
+
+
+State 82
+
+   66 conditionalStmt: ifStmt .
+
+    $default  reduce using rule 66 (conditionalStmt)
+
+
+State 83
+
+   67 conditionalStmt: ifElseStmt .
+
+    $default  reduce using rule 67 (conditionalStmt)
+
+
+State 84
+
+   42 statements: whileStmt .
+
+    $default  reduce using rule 42 (statements)
+
+
+State 85
+
+   43 statements: forStmt .
+
+    $default  reduce using rule 43 (statements)
+
+
+State 86
+
+   44 statements: returnStmt .
+
+    $default  reduce using rule 44 (statements)
+
+
+State 87
+
+   45 statements: funcCallStmt .
+
+    $default  reduce using rule 45 (statements)
+
+
+State 88
+
+   10 functionDeclaration: ID '(' formalArgumentList ')' ':' scalarType ';' .
+
+    $default  reduce using rule 10 (functionDeclaration)
+
+
+State 89
+
+   16 functionDefinition: ID '(' formalArgumentList ')' ':' scalarType compoundStmt . END
+
+    END  shift, and go to state 112
+
+
+State 90
+
+   25 arrayType: ARRAY INTCONST OF . type
+
+    ARRAY    shift, and go to state 38
+    BOOLEAN  shift, and go to state 39
+    INTEGER  shift, and go to state 40
+    REAL     shift, and go to state 41
+    STRING   shift, and go to state 42
+
+    type        go to state 113
+    arrayType   go to state 44
+    scalarType  go to state 45
+
+
+State 91
+
+   89 arithmeticExpression: '(' . expression ')'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 114
+    arithmeticExpression  go to state 98
+
+
+State 92
+
+   59 variableReference: ID . bracketExpressionList
+   80 expression: ID . '(' commaExpressionList ')'
+
+    '['  shift, and go to state 105
+    '('  shift, and go to state 115
+
+    $default  reduce using rule 60 (bracketExpressionList)
+
+    bracketExpressionList   go to state 107
+    bracketExpressionList1  go to state 108
+
+
+State 93
+
+   84 arithmeticExpression: NOT . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 116
+    arithmeticExpression  go to state 98
+
+
+State 94
+
+   31 literalConst: '-' . INTCONST
+   33             | '-' . REALCONST
+   36             | '-' . SCIENTIFIC
+   88 arithmeticExpression: '-' . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 117
+    REALCONST   shift, and go to state 118
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 119
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 120
+    arithmeticExpression  go to state 98
+
+
+State 95
+
+   78 expression: literalConst .
+
+    $default  reduce using rule 78 (expression)
+
+
+State 96
+
+   79 expression: variableReference .
+
+    $default  reduce using rule 79 (expression)
+
+
+State 97
+
+   72 returnStmt: RETURN expression . ';'
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    ';'  shift, and go to state 121
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 98
+
+   81 expression: arithmeticExpression .
+
+    $default  reduce using rule 81 (expression)
+
+
+State 99
+
+   70 whileStmt: WHILE expression . DO compoundStmt END DO
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    DO   shift, and go to state 138
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 100
+
+   68 ifStmt: IF expression . THEN compoundStmt END IF
+   69 ifElseStmt: IF expression . THEN compoundStmt ELSE compoundStmt END IF
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    THEN  shift, and go to state 139
+    AND   shift, and go to state 122
+    OR    shift, and go to state 123
+    LT    shift, and go to state 124
+    LE    shift, and go to state 125
+    NE    shift, and go to state 126
+    GE    shift, and go to state 127
+    GT    shift, and go to state 128
+    EQ    shift, and go to state 129
+    '+'   shift, and go to state 130
+    '-'   shift, and go to state 131
+    '/'   shift, and go to state 132
+    '%'   shift, and go to state 133
+    '*'   shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 101
+
+   71 forStmt: FOR ID . ASSIGN INTCONST TO INTCONST DO compoundStmt END DO
+
+    ASSIGN  shift, and go to state 140
+
+
+State 102
+
+   64 printStmt: PRINT expression . ';'
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    ';'  shift, and go to state 141
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 103
+
+   59 variableReference: ID . bracketExpressionList
+
+    '['  shift, and go to state 105
+
+    $default  reduce using rule 60 (bracketExpressionList)
+
+    bracketExpressionList   go to state 107
+    bracketExpressionList1  go to state 108
+
+
+State 104
+
+   65 readStmt: READ variableReference . ';'
+
+    ';'  shift, and go to state 142
+
+
+State 105
+
+   62 bracketExpressionList1: '[' . expression ']'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 143
+    arithmeticExpression  go to state 98
+
+
+State 106
+
+   73 funcCallStmt: ID '(' . commaExpressionList ')' ';'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    $default  reduce using rule 74 (commaExpressionList)
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    commaExpressionList   go to state 144
+    commaExpressionList1  go to state 145
+    expression            go to state 146
+    arithmeticExpression  go to state 98
+
+
+State 107
+
+   59 variableReference: ID bracketExpressionList .
+
+    $default  reduce using rule 59 (variableReference)
+
+
+State 108
+
+   61 bracketExpressionList: bracketExpressionList1 .
+   63 bracketExpressionList1: bracketExpressionList1 . '[' expression ']'
+
+    '['  shift, and go to state 147
+
+    $default  reduce using rule 61 (bracketExpressionList)
+
+
+State 109
+
+   46 compoundStmt: START dataDeclList statementList END .
+
+    $default  reduce using rule 46 (compoundStmt)
+
+
+State 110
+
+   54 statementList1: statementList1 statements .
+
+    $default  reduce using rule 54 (statementList1)
+
+
+State 111
+
+   58 assignmentStmt: variableReference ASSIGN . expression ';'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 148
+    arithmeticExpression  go to state 98
+
+
+State 112
+
+   16 functionDefinition: ID '(' formalArgumentList ')' ':' scalarType compoundStmt END .
+
+    $default  reduce using rule 16 (functionDefinition)
+
+
+State 113
+
+   25 arrayType: ARRAY INTCONST OF type .
+
+    $default  reduce using rule 25 (arrayType)
+
+
+State 114
+
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+   89                     | '(' expression . ')'
+
+    ')'  shift, and go to state 149
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 115
+
+   80 expression: ID '(' . commaExpressionList ')'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    $default  reduce using rule 74 (commaExpressionList)
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    commaExpressionList   go to state 150
+    commaExpressionList1  go to state 145
+    expression            go to state 146
+    arithmeticExpression  go to state 98
+
+
+State 116
+
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   84                     | NOT expression .
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    $default  reduce using rule 84 (arithmeticExpression)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 117
+
+   30 literalConst: INTCONST .
+   31             | '-' INTCONST .
+
+    ','       reduce using rule 30 (literalConst)
+    ','       [reduce using rule 31 (literalConst)]
+    ';'       reduce using rule 30 (literalConst)
+    ';'       [reduce using rule 31 (literalConst)]
+    ']'       reduce using rule 30 (literalConst)
+    ']'       [reduce using rule 31 (literalConst)]
+    ')'       reduce using rule 30 (literalConst)
+    ')'       [reduce using rule 31 (literalConst)]
+    DO        reduce using rule 30 (literalConst)
+    DO        [reduce using rule 31 (literalConst)]
+    THEN      reduce using rule 30 (literalConst)
+    THEN      [reduce using rule 31 (literalConst)]
+    AND       reduce using rule 30 (literalConst)
+    AND       [reduce using rule 31 (literalConst)]
+    OR        reduce using rule 30 (literalConst)
+    OR        [reduce using rule 31 (literalConst)]
+    LT        reduce using rule 30 (literalConst)
+    LT        [reduce using rule 31 (literalConst)]
+    LE        reduce using rule 30 (literalConst)
+    LE        [reduce using rule 31 (literalConst)]
+    NE        reduce using rule 30 (literalConst)
+    NE        [reduce using rule 31 (literalConst)]
+    GE        reduce using rule 30 (literalConst)
+    GE        [reduce using rule 31 (literalConst)]
+    GT        reduce using rule 30 (literalConst)
+    GT        [reduce using rule 31 (literalConst)]
+    EQ        reduce using rule 30 (literalConst)
+    EQ        [reduce using rule 31 (literalConst)]
+    '+'       reduce using rule 30 (literalConst)
+    '+'       [reduce using rule 31 (literalConst)]
+    '-'       reduce using rule 30 (literalConst)
+    '-'       [reduce using rule 31 (literalConst)]
+    '/'       reduce using rule 30 (literalConst)
+    '/'       [reduce using rule 31 (literalConst)]
+    '%'       reduce using rule 30 (literalConst)
+    '%'       [reduce using rule 31 (literalConst)]
+    '*'       reduce using rule 30 (literalConst)
+    '*'       [reduce using rule 31 (literalConst)]
+    $default  reduce using rule 30 (literalConst)
+
+
+State 118
+
+   32 literalConst: REALCONST .
+   33             | '-' REALCONST .
+
+    ','       reduce using rule 32 (literalConst)
+    ','       [reduce using rule 33 (literalConst)]
+    ';'       reduce using rule 32 (literalConst)
+    ';'       [reduce using rule 33 (literalConst)]
+    ']'       reduce using rule 32 (literalConst)
+    ']'       [reduce using rule 33 (literalConst)]
+    ')'       reduce using rule 32 (literalConst)
+    ')'       [reduce using rule 33 (literalConst)]
+    DO        reduce using rule 32 (literalConst)
+    DO        [reduce using rule 33 (literalConst)]
+    THEN      reduce using rule 32 (literalConst)
+    THEN      [reduce using rule 33 (literalConst)]
+    AND       reduce using rule 32 (literalConst)
+    AND       [reduce using rule 33 (literalConst)]
+    OR        reduce using rule 32 (literalConst)
+    OR        [reduce using rule 33 (literalConst)]
+    LT        reduce using rule 32 (literalConst)
+    LT        [reduce using rule 33 (literalConst)]
+    LE        reduce using rule 32 (literalConst)
+    LE        [reduce using rule 33 (literalConst)]
+    NE        reduce using rule 32 (literalConst)
+    NE        [reduce using rule 33 (literalConst)]
+    GE        reduce using rule 32 (literalConst)
+    GE        [reduce using rule 33 (literalConst)]
+    GT        reduce using rule 32 (literalConst)
+    GT        [reduce using rule 33 (literalConst)]
+    EQ        reduce using rule 32 (literalConst)
+    EQ        [reduce using rule 33 (literalConst)]
+    '+'       reduce using rule 32 (literalConst)
+    '+'       [reduce using rule 33 (literalConst)]
+    '-'       reduce using rule 32 (literalConst)
+    '-'       [reduce using rule 33 (literalConst)]
+    '/'       reduce using rule 32 (literalConst)
+    '/'       [reduce using rule 33 (literalConst)]
+    '%'       reduce using rule 32 (literalConst)
+    '%'       [reduce using rule 33 (literalConst)]
+    '*'       reduce using rule 32 (literalConst)
+    '*'       [reduce using rule 33 (literalConst)]
+    $default  reduce using rule 32 (literalConst)
+
+
+State 119
+
+   35 literalConst: SCIENTIFIC .
+   36             | '-' SCIENTIFIC .
+
+    ','       reduce using rule 35 (literalConst)
+    ','       [reduce using rule 36 (literalConst)]
+    ';'       reduce using rule 35 (literalConst)
+    ';'       [reduce using rule 36 (literalConst)]
+    ']'       reduce using rule 35 (literalConst)
+    ']'       [reduce using rule 36 (literalConst)]
+    ')'       reduce using rule 35 (literalConst)
+    ')'       [reduce using rule 36 (literalConst)]
+    DO        reduce using rule 35 (literalConst)
+    DO        [reduce using rule 36 (literalConst)]
+    THEN      reduce using rule 35 (literalConst)
+    THEN      [reduce using rule 36 (literalConst)]
+    AND       reduce using rule 35 (literalConst)
+    AND       [reduce using rule 36 (literalConst)]
+    OR        reduce using rule 35 (literalConst)
+    OR        [reduce using rule 36 (literalConst)]
+    LT        reduce using rule 35 (literalConst)
+    LT        [reduce using rule 36 (literalConst)]
+    LE        reduce using rule 35 (literalConst)
+    LE        [reduce using rule 36 (literalConst)]
+    NE        reduce using rule 35 (literalConst)
+    NE        [reduce using rule 36 (literalConst)]
+    GE        reduce using rule 35 (literalConst)
+    GE        [reduce using rule 36 (literalConst)]
+    GT        reduce using rule 35 (literalConst)
+    GT        [reduce using rule 36 (literalConst)]
+    EQ        reduce using rule 35 (literalConst)
+    EQ        [reduce using rule 36 (literalConst)]
+    '+'       reduce using rule 35 (literalConst)
+    '+'       [reduce using rule 36 (literalConst)]
+    '-'       reduce using rule 35 (literalConst)
+    '-'       [reduce using rule 36 (literalConst)]
+    '/'       reduce using rule 35 (literalConst)
+    '/'       [reduce using rule 36 (literalConst)]
+    '%'       reduce using rule 35 (literalConst)
+    '%'       [reduce using rule 36 (literalConst)]
+    '*'       reduce using rule 35 (literalConst)
+    '*'       [reduce using rule 36 (literalConst)]
+    $default  reduce using rule 35 (literalConst)
+
+
+State 120
+
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+   88                     | '-' expression .
+
+    $default  reduce using rule 88 (arithmeticExpression)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 121
+
+   72 returnStmt: RETURN expression ';' .
+
+    $default  reduce using rule 72 (returnStmt)
+
+
+State 122
+
+   82 arithmeticExpression: expression AND . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 151
+    arithmeticExpression  go to state 98
+
+
+State 123
+
+   83 arithmeticExpression: expression OR . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 152
+    arithmeticExpression  go to state 98
+
+
+State 124
+
+   90 Relational: LT .
+
+    $default  reduce using rule 90 (Relational)
+
+
+State 125
+
+   91 Relational: LE .
+
+    $default  reduce using rule 91 (Relational)
+
+
+State 126
+
+   92 Relational: NE .
+
+    $default  reduce using rule 92 (Relational)
+
+
+State 127
+
+   93 Relational: GE .
+
+    $default  reduce using rule 93 (Relational)
+
+
+State 128
+
+   94 Relational: GT .
+
+    $default  reduce using rule 94 (Relational)
+
+
+State 129
+
+   95 Relational: EQ .
+
+    $default  reduce using rule 95 (Relational)
+
+
+State 130
+
+   96 Additive: '+' .
+
+    $default  reduce using rule 96 (Additive)
+
+
+State 131
+
+   97 Additive: '-' .
+
+    $default  reduce using rule 97 (Additive)
+
+
+State 132
+
+   98 mulDivMod: '/' .
+
+    $default  reduce using rule 98 (mulDivMod)
+
+
+State 133
+
+   99 mulDivMod: '%' .
+
+    $default  reduce using rule 99 (mulDivMod)
+
+
+State 134
+
+  100 mulDivMod: '*' .
+
+    $default  reduce using rule 100 (mulDivMod)
+
+
+State 135
+
+   85 arithmeticExpression: expression Relational . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 153
+    arithmeticExpression  go to state 98
+
+
+State 136
+
+   86 arithmeticExpression: expression Additive . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 154
+    arithmeticExpression  go to state 98
+
+
+State 137
+
+   87 arithmeticExpression: expression mulDivMod . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 155
+    arithmeticExpression  go to state 98
+
+
+State 138
+
+   70 whileStmt: WHILE expression DO . compoundStmt END DO
+
+    START  shift, and go to state 30
+
+    compoundStmt  go to state 156
+
+
+State 139
+
+   68 ifStmt: IF expression THEN . compoundStmt END IF
+   69 ifElseStmt: IF expression THEN . compoundStmt ELSE compoundStmt END IF
+
+    START  shift, and go to state 30
+
+    compoundStmt  go to state 157
+
+
+State 140
+
+   71 forStmt: FOR ID ASSIGN . INTCONST TO INTCONST DO compoundStmt END DO
+
+    INTCONST  shift, and go to state 158
+
+
+State 141
+
+   64 printStmt: PRINT expression ';' .
+
+    $default  reduce using rule 64 (printStmt)
+
+
+State 142
+
+   65 readStmt: READ variableReference ';' .
+
+    $default  reduce using rule 65 (readStmt)
+
+
+State 143
+
+   62 bracketExpressionList1: '[' expression . ']'
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    ']'  shift, and go to state 159
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 144
+
+   73 funcCallStmt: ID '(' commaExpressionList . ')' ';'
+
+    ')'  shift, and go to state 160
+
+
+State 145
+
+   75 commaExpressionList: commaExpressionList1 .
+   77 commaExpressionList1: commaExpressionList1 . ',' expression
+
+    ','  shift, and go to state 161
+
+    $default  reduce using rule 75 (commaExpressionList)
+
+
+State 146
+
+   76 commaExpressionList1: expression .
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    $default  reduce using rule 76 (commaExpressionList1)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 147
+
+   63 bracketExpressionList1: bracketExpressionList1 '[' . expression ']'
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 162
+    arithmeticExpression  go to state 98
+
+
+State 148
+
+   58 assignmentStmt: variableReference ASSIGN expression . ';'
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    ';'  shift, and go to state 163
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 149
+
+   89 arithmeticExpression: '(' expression ')' .
+
+    $default  reduce using rule 89 (arithmeticExpression)
+
+
+State 150
+
+   80 expression: ID '(' commaExpressionList . ')'
+
+    ')'  shift, and go to state 164
+
+
+State 151
+
+   82 arithmeticExpression: expression . AND expression
+   82                     | expression AND expression .
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    $default  reduce using rule 82 (arithmeticExpression)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 152
+
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   83                     | expression OR expression .
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    $default  reduce using rule 83 (arithmeticExpression)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 153
+
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   85                     | expression Relational expression .
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    AND       [reduce using rule 85 (arithmeticExpression)]
+    OR        [reduce using rule 85 (arithmeticExpression)]
+    LT        [reduce using rule 85 (arithmeticExpression)]
+    LE        [reduce using rule 85 (arithmeticExpression)]
+    NE        [reduce using rule 85 (arithmeticExpression)]
+    GE        [reduce using rule 85 (arithmeticExpression)]
+    GT        [reduce using rule 85 (arithmeticExpression)]
+    EQ        [reduce using rule 85 (arithmeticExpression)]
+    '+'       [reduce using rule 85 (arithmeticExpression)]
+    '-'       [reduce using rule 85 (arithmeticExpression)]
+    '/'       [reduce using rule 85 (arithmeticExpression)]
+    '%'       [reduce using rule 85 (arithmeticExpression)]
+    '*'       [reduce using rule 85 (arithmeticExpression)]
+    $default  reduce using rule 85 (arithmeticExpression)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 154
+
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   86                     | expression Additive expression .
+   87                     | expression . mulDivMod expression
+
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    AND       [reduce using rule 86 (arithmeticExpression)]
+    OR        [reduce using rule 86 (arithmeticExpression)]
+    LT        [reduce using rule 86 (arithmeticExpression)]
+    LE        [reduce using rule 86 (arithmeticExpression)]
+    NE        [reduce using rule 86 (arithmeticExpression)]
+    GE        [reduce using rule 86 (arithmeticExpression)]
+    GT        [reduce using rule 86 (arithmeticExpression)]
+    EQ        [reduce using rule 86 (arithmeticExpression)]
+    '+'       [reduce using rule 86 (arithmeticExpression)]
+    '-'       [reduce using rule 86 (arithmeticExpression)]
+    '/'       [reduce using rule 86 (arithmeticExpression)]
+    '%'       [reduce using rule 86 (arithmeticExpression)]
+    '*'       [reduce using rule 86 (arithmeticExpression)]
+    $default  reduce using rule 86 (arithmeticExpression)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 155
+
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+   87                     | expression mulDivMod expression .
+
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    AND       [reduce using rule 87 (arithmeticExpression)]
+    OR        [reduce using rule 87 (arithmeticExpression)]
+    LT        [reduce using rule 87 (arithmeticExpression)]
+    LE        [reduce using rule 87 (arithmeticExpression)]
+    NE        [reduce using rule 87 (arithmeticExpression)]
+    GE        [reduce using rule 87 (arithmeticExpression)]
+    GT        [reduce using rule 87 (arithmeticExpression)]
+    EQ        [reduce using rule 87 (arithmeticExpression)]
+    '+'       [reduce using rule 87 (arithmeticExpression)]
+    '-'       [reduce using rule 87 (arithmeticExpression)]
+    '/'       [reduce using rule 87 (arithmeticExpression)]
+    '%'       [reduce using rule 87 (arithmeticExpression)]
+    '*'       [reduce using rule 87 (arithmeticExpression)]
+    $default  reduce using rule 87 (arithmeticExpression)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 156
+
+   70 whileStmt: WHILE expression DO compoundStmt . END DO
+
+    END  shift, and go to state 165
+
+
+State 157
+
+   68 ifStmt: IF expression THEN compoundStmt . END IF
+   69 ifElseStmt: IF expression THEN compoundStmt . ELSE compoundStmt END IF
+
+    END   shift, and go to state 166
+    ELSE  shift, and go to state 167
+
+
+State 158
+
+   71 forStmt: FOR ID ASSIGN INTCONST . TO INTCONST DO compoundStmt END DO
+
+    TO  shift, and go to state 168
+
+
+State 159
+
+   62 bracketExpressionList1: '[' expression ']' .
+
+    $default  reduce using rule 62 (bracketExpressionList1)
+
+
+State 160
+
+   73 funcCallStmt: ID '(' commaExpressionList ')' . ';'
+
+    ';'  shift, and go to state 169
+
+
+State 161
+
+   77 commaExpressionList1: commaExpressionList1 ',' . expression
+
+    '('         shift, and go to state 91
+    YES         shift, and go to state 46
+    NO          shift, and go to state 47
+    ID          shift, and go to state 92
+    INTCONST    shift, and go to state 48
+    REALCONST   shift, and go to state 49
+    STRLITERAL  shift, and go to state 50
+    SCIENTIFIC  shift, and go to state 51
+    NOT         shift, and go to state 93
+    '-'         shift, and go to state 94
+
+    literalConst          go to state 95
+    variableReference     go to state 96
+    expression            go to state 170
+    arithmeticExpression  go to state 98
+
+
+State 162
+
+   63 bracketExpressionList1: bracketExpressionList1 '[' expression . ']'
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    ']'  shift, and go to state 171
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 163
+
+   58 assignmentStmt: variableReference ASSIGN expression ';' .
+
+    $default  reduce using rule 58 (assignmentStmt)
+
+
+State 164
+
+   80 expression: ID '(' commaExpressionList ')' .
+
+    $default  reduce using rule 80 (expression)
+
+
+State 165
+
+   70 whileStmt: WHILE expression DO compoundStmt END . DO
+
+    DO  shift, and go to state 172
+
+
+State 166
+
+   68 ifStmt: IF expression THEN compoundStmt END . IF
+
+    IF  shift, and go to state 173
+
+
+State 167
+
+   69 ifElseStmt: IF expression THEN compoundStmt ELSE . compoundStmt END IF
+
+    START  shift, and go to state 30
+
+    compoundStmt  go to state 174
+
+
+State 168
+
+   71 forStmt: FOR ID ASSIGN INTCONST TO . INTCONST DO compoundStmt END DO
+
+    INTCONST  shift, and go to state 175
+
+
+State 169
+
+   73 funcCallStmt: ID '(' commaExpressionList ')' ';' .
+
+    $default  reduce using rule 73 (funcCallStmt)
+
+
+State 170
+
+   77 commaExpressionList1: commaExpressionList1 ',' expression .
+   82 arithmeticExpression: expression . AND expression
+   83                     | expression . OR expression
+   85                     | expression . Relational expression
+   86                     | expression . Additive expression
+   87                     | expression . mulDivMod expression
+
+    AND  shift, and go to state 122
+    OR   shift, and go to state 123
+    LT   shift, and go to state 124
+    LE   shift, and go to state 125
+    NE   shift, and go to state 126
+    GE   shift, and go to state 127
+    GT   shift, and go to state 128
+    EQ   shift, and go to state 129
+    '+'  shift, and go to state 130
+    '-'  shift, and go to state 131
+    '/'  shift, and go to state 132
+    '%'  shift, and go to state 133
+    '*'  shift, and go to state 134
+
+    $default  reduce using rule 77 (commaExpressionList1)
+
+    Relational  go to state 135
+    Additive    go to state 136
+    mulDivMod   go to state 137
+
+
+State 171
+
+   63 bracketExpressionList1: bracketExpressionList1 '[' expression ']' .
+
+    $default  reduce using rule 63 (bracketExpressionList1)
+
+
+State 172
+
+   70 whileStmt: WHILE expression DO compoundStmt END DO .
+
+    $default  reduce using rule 70 (whileStmt)
+
+
+State 173
+
+   68 ifStmt: IF expression THEN compoundStmt END IF .
+
+    $default  reduce using rule 68 (ifStmt)
+
+
+State 174
+
+   69 ifElseStmt: IF expression THEN compoundStmt ELSE compoundStmt . END IF
+
+    END  shift, and go to state 176
+
+
+State 175
+
+   71 forStmt: FOR ID ASSIGN INTCONST TO INTCONST . DO compoundStmt END DO
+
+    DO  shift, and go to state 177
+
+
+State 176
+
+   69 ifElseStmt: IF expression THEN compoundStmt ELSE compoundStmt END . IF
+
+    IF  shift, and go to state 178
+
+
+State 177
+
+   71 forStmt: FOR ID ASSIGN INTCONST TO INTCONST DO . compoundStmt END DO
+
+    START  shift, and go to state 30
+
+    compoundStmt  go to state 179
+
+
+State 178
+
+   69 ifElseStmt: IF expression THEN compoundStmt ELSE compoundStmt END IF .
+
+    $default  reduce using rule 69 (ifElseStmt)
+
+
+State 179
+
+   71 forStmt: FOR ID ASSIGN INTCONST TO INTCONST DO compoundStmt . END DO
+
+    END  shift, and go to state 180
+
+
+State 180
+
+   71 forStmt: FOR ID ASSIGN INTCONST TO INTCONST DO compoundStmt END . DO
+
+    DO  shift, and go to state 181
+
+
+State 181
+
+   71 forStmt: FOR ID ASSIGN INTCONST TO INTCONST DO compoundStmt END DO .
+
+    $default  reduce using rule 71 (forStmt)
