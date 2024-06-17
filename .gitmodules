@@ -1,9 +1,0 @@
-[submodule "HW3"]
-	path = HW3
-	url = https://github.com/compiler-f23/hw3-krz-max.git
-[submodule "HW4"]
-	path = HW4
-	url = https://github.com/compiler-f23/hw4-krz-max.git
-[submodule "HW5"]
-	path = HW5
-	url = https://github.com/compiler-f23/hw5-krz-max.git
